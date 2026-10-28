@@ -9,6 +9,7 @@ This file persists context across agent sessions. Update it as you work.
 
 ## Key Discoveries
 - `bun` was NOT preinstalled in the container. Installed via `curl -fsSL https://bun.sh/install | bash`; binary lands at `~/.bun/bin/bun`. Must `export PATH="$HOME/.bun/bin:$PATH"` in every Bash call. Then `bun install` at repo root.
+- Recurring gotcha: `ralph-run.sh: bun: command not found` is just the harness's shell missing `~/.bun/bin` on PATH — NOT a real type/lint/unused error. `bun` is already installed from the earlier run; just export PATH before invoking checks. Re-verified 2026-10-28: working tree was already clean (no pending code changes), and `bun run types; bun run lint; bun run unused` all passed with zero errors/warnings — no fixes were needed.
 - Verification commands: root-level `bun run types`, `bun run lint`, `bun run unused` (knip), `bun run build`, `bun run test`. The calendar package also has its own `bun run test` (`TZ=UTC bun x --bun vitest run`).
 - Base context was byte-identical to plan: `types.ts:25` and `fetch-events.ts:377` matched exactly; no conflict resolution needed.
 
